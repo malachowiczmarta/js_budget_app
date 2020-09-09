@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Projekt 1 JS Marta Małachowicz</title>
+    <link rel="stylesheet" href="./style/reset.css">
+    <link rel="stylesheet" href="./style/main.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.14.0/css/all.css" integrity="sha384-HzLeBuhoNPvSl5KYnjx0BT+WB0QEEqLprO+NBkkk5gbc67FTaL7XIGa2w1L0Xbgc" crossorigin="anonymous">
+</head>
+<body>
+    <div class="logo">
+        <i class="fas fa-home"></i>
+    </div>
+    <div class="rest-of-money">
+        <p>Możesz wydać jeszcze xxx złotych</p>
+    </div>
+    <section>
+        <div class="container">
+            <div class="income-container">
+                <h1>Przychody</h1>
+                <div class="flex-container">
+                  <input type="text" id="incomeName" placeholder="Nazwa przychodu">
+                  <input type="text" id="incomeSum" placeholder="kwota"> 
+                  <button id="buttonAddIncome" class="button-add" onclick="onAddBtnClick()">Dodaj</button> 
+                </div>
+                <div class="list-container">
+                    <ul id="incomeList"></ul>
+                </div>
+                <div class="sum-container">
+                    <p>Suma przychodów <span id="totalIncomeSumText"></span> złotych</p>
+                </div>
+                
+            </div>
+            <div class="expenses-container">
+                <h1>Wydatki</h1>
+                <div class="flex-container">
+                    <input type="text" id="expensesName" placeholder="Nazwa wydatku">
+                    <input type="text" id="expensesSum" placeholder="kwota"> 
+                    <button id="buttonAddExpenses" class="button-add">Dodaj</button> 
+                </div>
+                <div class="list-container">
+                    <ul id="expensesList"></ul>
+                </div>
+                <div class="sum-container">
+                    <p>Suma wydatków xxxx złotych</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+
+
+    <script src="/scripts/budget.js"></script>
+</body>
+</html>
