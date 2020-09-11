@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="./style/reset.css" />
     <link rel="stylesheet" href="./style/main.css" />
     <link
-      href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&display=swap"
       rel="stylesheet"
     />
     <link
@@ -22,68 +22,79 @@
       <i class="fas fa-home logo-icon"></i>
     </div>
     <div class="rest-of-money">
-      <p id="totalSumPara">Bilans wynosi zero</p>
+      <p id="totalSumPara" class="middle-size-text">Bilans wynosi zero</p>
     </div>
     <section>
       <div class="container">
         <div class="income-container">
-          <h1>Przychody</h1>
+          <div class="list-box">
+            <h1>Przychody</h1>
 
-          <div class="flex-container">
-            <input
-              type="text"
-              id="incomeName"
-              placeholder="Nazwa przychodu"
-              class="input-name"
-            />
-            <input
-              type="text"
-              id="incomeSum"
-              placeholder="kwota"
-              class="input-sum"
-            />
-            <button
-              id="buttonAddIncome"
-              class="button-add"
-              onclick="onAddBtnIncomeClick()"
-            >
-              Dodaj
-            </button>
+            <div class="flex-container">
+              <input
+                type="text"
+                id="incomeName"
+                placeholder="Nazwa przychodu"
+                class="input-name"
+              />
+              <input
+                type="text"
+                id="incomeSum"
+                placeholder="kwota"
+                class="input-sum"
+              />
+              <button
+                id="buttonAddIncome"
+                class="button-add"
+                onclick="onAddBtnIncomeClick()"
+              >
+                <i class="fas fa-plus"></i>
+              </button>
+            </div>
+            <hr />
+
+            <div id="incomesListContainer" class="list-container"></div>
           </div>
 
-          <div id="incomesListContainer" class="list-container"></div>
           <div class="sum-container">
-            <p id="incomeSumPara">
+            <p id="incomeSumPara" class="sum-paragraph middle-size-text">
               Suma przychodów: <span id="totalIncomeSumSpan">0</span>zł
             </p>
           </div>
         </div>
-        <div class="expenses-container">
-          <h1>Wydatki</h1>
-          <div class="flex-container">
-            <input
-              type="text"
-              id="outcomeName"
-              placeholder="Nazwa wydatku"
-              class="input-name"
-            />
-            <input
-              type="text"
-              id="outcomeSum"
-              placeholder="kwota"
-              class="input-sum"
-            />
-            <button
-              id="buttonAddOutcome"
-              class="button-add"
-              onclick="onAddBtnOutcomeClick()"
-            >
-              Dodaj
-            </button>
+        <div class="outcome-container">
+          <div class="list-box">
+            <h1>Wydatki</h1>
+
+            <div class="flex-container">
+              <input
+                type="text"
+                id="outcomeName"
+                placeholder="Nazwa wydatku"
+                class="input-name"
+              />
+              <input
+                type="text"
+                id="outcomeSum"
+                placeholder="kwota"
+                class="input-sum"
+              />
+              <button
+                id="buttonAddOutcome"
+                class="button-add"
+                onclick="onAddBtnOutcomeClick()"
+              >
+                <i class="fas fa-plus"></i>
+              </button>
+            </div>
+            <hr />
+            <div id="outcomesListContainer" class="list-container"></div>
           </div>
-          <div id="outcomesListContainer" class="list-container"></div>
+
           <div class="sum-container">
-            <p>Suma wydatków <span id="totalOutcomeSumSpan">0</span> zł</p>
+            <p class="sum-paragraph middle-size-text">
+              Suma wydatków <span id="totalOutcomeSumSpan">0</span>zł
+            </p>
           </div>
         </div>
       </div>

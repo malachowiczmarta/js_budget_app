@@ -1,6 +1,6 @@
 class Budget {
-  incomesList = [{ id: 0, name: "Test 1", price: 10.0 }];
-  outcomesList = [{ id: 0, name: "Test 2", price: 10.0 }];
+  incomesList = [];
+  outcomesList = [];
 
   getIncomes() {
     return this.incomesList;
@@ -75,7 +75,7 @@ class Budget {
     });
   }
 
-  deleteoutcome(id) {
+  deleteOutcome(id) {
     this.outcomesList = this.outcomesList.filter(function (outcome) {
       return outcome.id !== id;
     });
@@ -129,9 +129,9 @@ function onIncomeRemoveBtnClick(e) {
 function onOutcomeRemoveBtnClick(e) {
   let id = e.target.id;
   let splitedId = id.split("-");
-  let clickedIdOutcome = splitedId[1];
+  let clickedIdOutcome = Number(splitedId[1]);
 
-  budget.deleteoutcome(clickedIdOutcome);
+  budget.deleteOutcome(clickedIdOutcome);
 
   updateInterface();
 }
@@ -142,22 +142,27 @@ function onIncomeEditBtnClick(e) {
   let id = e.target.id;
   let splitedId = id.split("-");
 
-  let clickedIdIncome = Number(splitedId[1]);
+  let clickedIdIncome = splitedId[1];
+  console.log(clickedIdIncome);
 
-  let targetparagraph = document.getElementById(`income-${clickedIdincome}`);
+  let targetparagraph = document.getElementById(`income-${clickedIdIncome}`);
+
   targetparagraph.innerText = "";
 
   const incomeToEdit = budget.getIncome(clickedIdIncome);
 
   let editIncomeNameInput = document.createElement("input");
   editIncomeNameInput.value = incomeToEdit.name;
+  editIncomeNameInput.classList.add("edit-input-name");
   targetparagraph.appendChild(editIncomeNameInput);
   let editIncomePriceInput = document.createElement("input");
   editIncomePriceInput.value = incomeToEdit.price;
+  editIncomePriceInput.classList.add("edit-input-price");
   targetparagraph.appendChild(editIncomePriceInput);
 
   let saveIncomeBtn = document.createElement("button");
-  saveIncomeBtn.innerText = "Zapisz";
+  saveIncomeBtn.innerHTML = '<i class="fas fa-save"></i>';
+  saveIncomeBtn.classList.add("save-btn");
   targetparagraph.appendChild(saveIncomeBtn);
 
   saveIncomeBtn.onclick = (e) => {
@@ -181,13 +186,16 @@ function onOutcomeEditBtnClick(e) {
 
   let editOutcomeNameInput = document.createElement("input");
   editOutcomeNameInput.value = outcomeToEdit.name;
+  editOutcomeNameInput.classList.add("edit-input-name");
   targetparagraph.appendChild(editOutcomeNameInput);
   let editOutcomePriceInput = document.createElement("input");
+  editOutcomePriceInput.classList.add("edit-input-price");
   editOutcomePriceInput.value = outcomeToEdit.price;
   targetparagraph.appendChild(editOutcomePriceInput);
 
   let saveOutcomeBtn = document.createElement("button");
-  saveOutcomeBtn.innerText = "Zapisz";
+  saveOutcomeBtn.classList.add("save-btn");
+  saveOutcomeBtn.innerHTML = '<i class="fas fa-save"></i>';
   targetparagraph.appendChild(saveOutcomeBtn);
 
   saveOutcomeBtn.onclick = (e) => {
@@ -215,25 +223,27 @@ function updateIncomeList() {
 
   incomeArr.forEach((income) => {
     let incomeListItemContainer = document.createElement("div");
-    incomeListItemContainer.classList.add("income-list-item-container");
+    incomeListItemContainer.classList.add("list-item-container");
+    incomeListItemContainer.classList.add("shadow");
     let incomesListContainer = document.querySelector("#incomesListContainer");
     incomesListContainer.appendChild(incomeListItemContainer);
 
     let incomeParagraph = document.createElement("p");
     incomeParagraph.id = `income-${income.id}`;
+    incomeParagraph.classList.add("para-list-item-container");
     incomeParagraph.innerText = `${income.name} ${income.price} zł`;
     incomeListItemContainer.appendChild(incomeParagraph);
 
     let editIncomeBtn = document.createElement("button");
     editIncomeBtn.id = `editBtn-${income.id}`;
-    editIncomeBtn.innerText = "Edycja";
-    editIncomeBtn.classList.add("incomeEditBtn");
+    editIncomeBtn.innerHTML = '<i class="fas fa-edit"></i>';
+    editIncomeBtn.classList.add("edit-btn");
     editIncomeBtn.onclick = onIncomeEditBtnClick;
     incomeListItemContainer.appendChild(editIncomeBtn);
 
     let deleteIncomeBtn = document.createElement("button");
     deleteIncomeBtn.id = `deleteBtn-${income.id}`;
-    deleteIncomeBtn.classList.add("incomeTrashBtn");
+    deleteIncomeBtn.classList.add("trash-btn");
     deleteIncomeBtn.onclick = onIncomeRemoveBtnClick;
     deleteIncomeBtn.innerHTML = '<i class="fas fa-trash-alt"></i>';
     incomeListItemContainer.appendChild(deleteIncomeBtn);
@@ -253,7 +263,8 @@ function updateOutcomeList() {
 
   outcomeArr.forEach((outcome) => {
     let outcomeListItemContainer = document.createElement("div");
-    outcomeListItemContainer.classList.add("outcome-list-item-container");
+    outcomeListItemContainer.classList.add("list-item-container");
+    outcomeListItemContainer.classList.add("shadow");
     let outcomesListContainer = document.querySelector(
       "#outcomesListContainer"
     );
@@ -261,19 +272,20 @@ function updateOutcomeList() {
 
     let outcomeParagraph = document.createElement("p");
     outcomeParagraph.id = `outcome-${outcome.id}`;
+    outcomeParagraph.classList.add("para-list-item-container");
     outcomeParagraph.innerText = `${outcome.name} ${outcome.price} zł`;
     outcomeListItemContainer.appendChild(outcomeParagraph);
 
     let editOutcomeBtn = document.createElement("button");
     editOutcomeBtn.id = `editBtn-${outcome.id}`;
-    editOutcomeBtn.innerText = "Edycja";
-    editOutcomeBtn.classList.add("outcomeEditBtn");
+    editOutcomeBtn.innerHTML = '<i class="fas fa-edit"></i>';
+    editOutcomeBtn.classList.add("edit-btn");
     editOutcomeBtn.onclick = onOutcomeEditBtnClick;
     outcomeListItemContainer.appendChild(editOutcomeBtn);
 
     let deleteOutcomeBtn = document.createElement("button");
     deleteOutcomeBtn.id = `deleteBtn-${outcome.id}`;
-    deleteOutcomeBtn.classList.add("outcomeTrashBtn");
+    deleteOutcomeBtn.classList.add("trash-btn");
     deleteOutcomeBtn.onclick = onOutcomeRemoveBtnClick;
     deleteOutcomeBtn.innerHTML = '<i class="fas fa-trash-alt"></i>';
     outcomeListItemContainer.appendChild(deleteOutcomeBtn);
