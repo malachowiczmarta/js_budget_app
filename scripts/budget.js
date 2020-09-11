@@ -1,116 +1,188 @@
-let incomeArr = [];
-let totalIncomeSum = [];
-const incomeObj = {};
+class Budget {
+  incomesList = [{ id: 0, name: "Test 1", price: 10.0 }];
+  outcomesList = [
+    { id: 0, name: "Test 1", price: 10.0 },
+    { id: 1, name: "Test 1", price: 10.0 },
+  ];
 
+  getIncomes() {
+    return this.incomesList;
+  }
 
+  getIncome(id) {
+    return this.incomesList[id];
+  }
+
+  getOutcomes() {
+    return this.outcomesList;
+  }
+
+  getOutcome(id) {
+    return this.outcomesList[id];
+  }
+
+  getIncomesSum() {
+    const incomeSum = this.incomesList
+      .map((income) => income.price)
+      .reduce((sum, price) => {
+        return sum + price;
+      }, 0);
+
+    return incomeSum;
+  }
+
+  getOutcomesSum() {
+    const outcomeSum = this.outcomesList
+      .map((outcome) => outcome.price)
+      .reduce((sum, price) => {
+        return sum + price;
+      }, 0);
+
+    return outcomeSum;
+  }
+  getBalance() {
+    return this.getIncomesSum() - this.getOutcomesSum();
+  }
+
+  addIncome(newName, newPrice) {
+    const income = {
+      name: newName,
+      price: Number(newPrice),
+      id: this.incomesList.length,
+    };
+
+    this.incomesList.push(income);
+  }
+
+  editIncome(id, newName, newPrice) {
+    this.incomesList[id] = { id, name: newName, price: Number(newPrice) };
+  }
+
+  deleteIncome(id) {
+    this.incomesList = this.incomesList.filter(function (income) {
+      return income.id !== id;
+    });
+  }
+}
+
+const budget = new Budget();
+
+// UI nic z logiki tutaj ponizej ######################################################
 // onclick function ######################################################
 
 function onAddBtnClick() {
-    let income = document.getElementById('incomeName');
-    let incomeSum = document.getElementById('incomeSum');
-    let incomeTextList = income.value + ' ' + incomeSum.value + 'zł';
+  let incomeName = document.getElementById("incomeName");
+  let incomeSum = document.getElementById("incomeSum");
+  //   let incomeSumValueNumber = Number(incomeSum.value);
 
-    incomeArr.push(incomeTextList);
-    console.log(incomeArr); 
+  budget.addIncome(incomeName.value, incomeSum.value);
 
-    totalIncomeSum.push(incomeSum.value);
-    console.log(totalIncomeSum); 
+  console.log(budget);
+  updateInterface();
+}
 
-    uptadeIncomeList ()
-    updateIncomeSum ()
+function onRemoveBtnClick(e) {
+  let id = e.target.id;
+  let splitedId = id.split("-");
+  let clickedId = Number(splitedId[1]);
 
-    console.log(updateIncomeSum ());
+  budget.deleteIncome(clickedId);
+  updateInterface();
+}
+
+function onEditBtnClick(e) {
+  let id = e.target.id;
+  let splitedId = id.split("-");
+
+  let clickedId = Number(splitedId[2]);
+  let targetparagraph = document.getElementById(splitedId[2]);
+  targetparagraph.innerText = "";
+
+  const incomeToEdit = budget.getIncome(clickedId);
+
+  let editNameInput = document.createElement("input");
+  editNameInput.value = incomeToEdit.name;
+  targetparagraph.appendChild(editNameInput);
+  let editPriceInput = document.createElement("input");
+  editPriceInput.value = incomeToEdit.price;
+  targetparagraph.appendChild(editPriceInput);
+
+  let saveBtn = document.createElement("button");
+  saveBtn.innerText = "Zapisz";
+  targetparagraph.appendChild(saveBtn);
+
+  //   let editPriceInputNumber = Number(editPriceInput.value);
+
+  saveBtn.onclick = (e) => {
+    budget.editIncome(clickedId, editNameInput.value, editPriceInput.value);
+    updateInterface();
+  };
+}
+
+function updateInterface() {
+  uptadeIncomeList();
+  updateIncomeSum();
+  updateTotalSum();
+}
+
+function uptadeIncomeList() {
+  let listContainer = document.querySelector("#incomeListContainer");
+  listContainer.innerText = "";
+  let incomeName = document.getElementById("incomeName");
+  incomeName.value = "";
+  let incomeSum = document.getElementById("incomeSum");
+  incomeSum.value = "";
+
+  const incomeArr = budget.getIncomes();
+
+  incomeArr.forEach((income) => {
+    let incomeListItemContainer = document.createElement("div");
+    incomeListItemContainer.classList.add("income-list-item-container");
+    let incomeListContainer = document.querySelector("#incomeListContainer");
+    incomeListContainer.appendChild(incomeListItemContainer);
+
+    let incomeParagraph = document.createElement("p");
+    incomeParagraph.id = income.id;
+    incomeParagraph.innerText = `${income.name} ${income.price} zł`;
+    incomeListItemContainer.appendChild(incomeParagraph);
+
+    let editBtn = document.createElement("button");
+    editBtn.id = `editBtn-income-${income.id}`;
+    editBtn.innerText = "Edycja";
+    editBtn.classList.add("incomeEditBtn");
+    editBtn.onclick = onEditBtnClick;
+    incomeListItemContainer.appendChild(editBtn);
+
+    let deleteBtn = document.createElement("button");
+    deleteBtn.id = `deleteBtn-${income.id}`;
+    deleteBtn.classList.add("incomeTrashBtn");
+    deleteBtn.onclick = onRemoveBtnClick;
+    deleteBtn.innerHTML = '<i class="fas fa-trash-alt"></i>';
+    incomeListItemContainer.appendChild(deleteBtn);
+  });
+}
+
+function updateIncomeSum() {
+  let totalIncomeSum = budget.getIncomesSum();
+  let totalIncomeSumSpan = document.getElementById("totalIncomeSumSpan");
+  totalIncomeSumSpan.innerText = "";
+  totalIncomeSumSpan.innerText = totalIncomeSum;
+}
+
+function updateTotalSum() {
+  let totalSum = budget.getBalance();
+  let totalIncomeSum = budget.getIncomesSum();
+  let totalOutcomeSum = budget.getOutcomesSum();
+  let totalSumPara = document.getElementById("totalSumPara");
+
+  if (totalIncomeSum == totalOutcomeSum) {
+    return (totalSumPara.innerText = "Bilans wynosi zero");
+  } else if (totalIncomeSum > totalOutcomeSum) {
+    return (totalSumPara.innerText = `Możesz jeszcze wydać ${totalSum} złotych`);
+  }
+  return (totalSumPara.innerText = `Bilans jest ujemny. Jesteś na minusie ${totalSum} złotych`);
+}
+
+window.onload = () => {
+  updateInterface();
 };
-
-function onEditRemoveBtnClick(e) {
-    const item = e.target;
-    let incomeSum = document.getElementById('incomeSum');
-    let index = totalIncomeSum.indexOf(incomeSum.value);
-
-    if (item.classList[0] === 'incomeTrashBtn') {
-        item.parentElement.remove();
-        totalIncomeSum.splice(index, 1);
-        incomeArr.splice(index, 1);
-    };
-
-    // if (item.classList[0] === 'incomeEditBtn') {
-    //     let parent = item.parentElement;
-        
-    //     let li = parent.firstChild;
-    //     li.innerText = ""
-    //     // li.innerHTML = '<input type="text" id="editInputText" placeholder="edycja tekst"><input type="text" id="editInputSum" placeholder="kwota">'       
-         
-    //     let editNameInput = document.createElement('input');
-
-    //     let editPriceInput = document.createElement('input');
-
-    //     li.appendChild(editNameInput)
-    //     li.appendChild(editPriceInput)
-        
-    //     let editInputText = document.getElementById('editInputText');
-    //     editInputText.addEventListener("keyup", function(event) {
-    //         if (event.keyCode === 13) {
-
-    //         }
-    //     })
-    // }
-
-    updateIncomeSum ()
-
-};
-
-
-
-// another function ######################################################
-
-function uptadeIncomeList () {
-
-    let ul = document.querySelector('#incomeList');
-    ul.innerText = '';
-    let income = document.getElementById('incomeName');
-    income.value = '';
-    let incomeSum = document.getElementById('incomeSum');
-    incomeSum.value = '';
-
-    incomeArr.forEach(elem => {
-        let divIncome = document.createElement('div');
-        divIncome.classList.add('income-list-item-container');
-        let ul = document.querySelector('#incomeList');
-        ul.appendChild(divIncome);
-
-
-        let li = document.createElement('li');
-        li.classList.add('income-list-item');
-        li.innerText = elem;
-        li.id = incomeArr.indexOf(elem);
-        divIncome.appendChild(li);
-
-        let editBtn = document.createElement('button');
-        editBtn.innerText = 'Edycja';
-        editBtn.classList.add('incomeEditBtn');
-        editBtn.onclick = onEditRemoveBtnClick;
-        editBtn.id = 'incomeEditBtn';
-        divIncome.appendChild(editBtn);
-
-        let trashBtn = document.createElement('button');
-        trashBtn.classList.add('incomeTrashBtn');
-        trashBtn.onclick = onEditRemoveBtnClick;
-        trashBtn.innerHTML = '<i class="fas fa-trash-alt"></i>';
-        divIncome.appendChild(trashBtn);
-    });
-};
-
-function updateIncomeSum () {
-    let sum = 0;
-    
-    totalIncomeSum.forEach(elem => {
-        let number = parseFloat(elem);
-        sum = sum + number;
-    });
-
-    let totalIncomeSumText = document.getElementById('totalIncomeSumText');
-    totalIncomeSumText.innerText = sum + 'zł';
-
-};
-
-
