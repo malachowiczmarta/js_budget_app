@@ -1,112 +1,110 @@
 body {
-    background-color: #80d8ff;
+  background-color: #80d8ff;
 }
 
 h1 {
-    font-size: 28px;
-    font-weight: bold;
-    margin: 10px 0;
-    color: #F96;
+  font-size: 28px;
+  font-weight: bold;
+  margin: 10px 0;
+  color: #f96;
 }
 
 p {
-    font-size: 22px;
-    text-align: center;
-    color: #37474f;
+  font-size: 22px;
+  text-align: center;
+  color: #37474f;
 }
 
 .logo-icon {
-    color: #F9F9F9;
-    font-size: 150px;
-    
+  color: #f9f9f9;
+  font-size: 150px;
 }
 
 .logo {
-    margin: 50px auto;
-    width: 960px;
-    text-align: center;
+  margin: 50px auto;
+  width: 960px;
+  text-align: center;
 }
 
 .rest-of-money {
-    margin: 30px auto;
-    width: 450px;
-    padding: 10px 0;
-    background-color: #F9F9F9;
-    border-radius: 5px;
+  margin: 30px auto;
+  width: 450px;
+  padding: 10px 0;
+  background-color: #f9f9f9;
+  border-radius: 5px;
 }
 
 .container {
-    margin: 0 auto;
-    display: flex;
-    justify-content: space-around;
-    width: 960px;
-    background-color: #F9F9F9;
-    border-radius: 5px;
-    padding: 10px 0;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-around;
+  width: 960px;
+  background-color: #f9f9f9;
+  border-radius: 5px;
+  padding: 10px 0;
 }
 
 .flex-container {
-    display: flex;
-    justify-content: space-between;
+  display: flex;
+  justify-content: space-between;
 }
 
-.income-container .expenses-container {
-    width: 48%;
+.income-container .outcome-container {
+  width: 48%;
 }
 
-
-#income-name, #expenses-name {
-    box-sizing: border-box;
-    width: 60%;
-    border: 1px solid #CCC;
-    border-radius: 5px;
-    background-color: white;
-    padding: 10px;
+.input-name {
+  box-sizing: border-box;
+  width: 60%;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: white;
+  padding: 10px;
 }
 
-#income-sum, #expenses-sum {
-    box-sizing: border-box;
-    width: 20%;
-    border: 1px solid #CCC;
-    border-radius: 5px;
-    background-color: white;
-    padding: 10px;
+.input-sum {
+  box-sizing: border-box;
+  width: 20%;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: white;
+  padding: 10px;
 }
 
 .button-add {
-    box-sizing: border-box;
-    width: 15%;
-    border: 1px solid #CCC;
-    border-radius: 5px;
-    background-color: #F96e;
-    padding: 10px;
+  box-sizing: border-box;
+  width: 15%;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #f96e;
+  padding: 10px;
 }
 
 .list-container {
-    margin: 30px 0;
-    width: 100%;
+  margin: 30px 0;
+  width: 100%;
 }
 
-.income-list-item-container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background-color: white;
-    border: 1px solid #CCC;
-    margin: 5px 0;
-    font-size: 20px;
+.income-list-item-container,
+.outcome-list-item-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: white;
+  border: 1px solid #ccc;
+  margin: 5px 0;
+  font-size: 20px;
 }
 
 .income-list-item {
-    flex: 1;
-    padding: 0 5px;
+  flex: 1;
+  padding: 0 5px;
 }
 
 .sum-container {
-    width: 100%;
-    border: 1px solid #CCC;
-    border-radius: 5px;
-    background-color: white;
-    padding: 10px 0;
+  width: 100%;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: white;
+  padding: 10px 0;
 }
-

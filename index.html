@@ -30,18 +30,28 @@
           <h1>Przychody</h1>
 
           <div class="flex-container">
-            <input type="text" id="incomeName" placeholder="Nazwa przychodu" />
-            <input type="text" id="incomeSum" placeholder="kwota" />
+            <input
+              type="text"
+              id="incomeName"
+              placeholder="Nazwa przychodu"
+              class="input-name"
+            />
+            <input
+              type="text"
+              id="incomeSum"
+              placeholder="kwota"
+              class="input-sum"
+            />
             <button
               id="buttonAddIncome"
               class="button-add"
-              onclick="onAddBtnClick()"
+              onclick="onAddBtnIncomeClick()"
             >
               Dodaj
             </button>
           </div>
 
-          <div id="incomeListContainer" class="list-container"></div>
+          <div id="incomesListContainer" class="list-container"></div>
           <div class="sum-container">
             <p id="incomeSumPara">
               Suma przychodów: <span id="totalIncomeSumSpan">0</span>zł
@@ -51,15 +61,29 @@
         <div class="expenses-container">
           <h1>Wydatki</h1>
           <div class="flex-container">
-            <input type="text" id="expensesName" placeholder="Nazwa wydatku" />
-            <input type="text" id="expensesSum" placeholder="kwota" />
-            <button id="buttonAddExpenses" class="button-add">Dodaj</button>
+            <input
+              type="text"
+              id="outcomeName"
+              placeholder="Nazwa wydatku"
+              class="input-name"
+            />
+            <input
+              type="text"
+              id="outcomeSum"
+              placeholder="kwota"
+              class="input-sum"
+            />
+            <button
+              id="buttonAddOutcome"
+              class="button-add"
+              onclick="onAddBtnOutcomeClick()"
+            >
+              Dodaj
+            </button>
           </div>
-          <div class="list-container">
-            <ul id="expensesList"></ul>
-          </div>
+          <div id="outcomesListContainer" class="list-container"></div>
           <div class="sum-container">
-            <p>Suma wydatków xxxx złotych</p>
+            <p>Suma wydatków <span id="totalOutcomeSumSpan">0</span> zł</p>
           </div>
         </div>
       </div>
