@@ -2,18 +2,18 @@ body {
   font-family: "Roboto Mono", monospace;
 }
 
-.blue-border {
-  border: 5px solid #0d2137;
+.blue-background {
   border-radius: 5px;
   padding: 10px 0;
+  background-color: #0d2137;
 }
 
-.orange-border {
-  border: 5px solid #ff8e2b;
+.orange-background {
+  background-color: #f85b00;
 }
 
-.green-border {
-  border: 5px solid #238e23;
+.green-background {
+  background-color: #238e23;
 }
 
 .fa-trash-alt,

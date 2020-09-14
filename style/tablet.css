@@ -22,22 +22,11 @@
 
   .balans-paragraph {
     margin: 30px auto;
-    width: 960px;
-  }
-
-  .container {
-    flex-direction: row;
-    justify-content: space-between;
-    width: 960px;
   }
 
   .income-container,
   .outcome-container {
-    width: 46%;
     padding: 15px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
   }
 
   .input-name,
@@ -45,17 +34,5 @@
   .edit-input-name,
   .edit-input-price {
     font-size: 20px;
-  }
-
-  .edit-input-name {
-    width: 60%;
-    border-radius: 5px;
-    padding: 10px;
-  }
-
-  .edit-input-price {
-    width: 25%;
-    border-radius: 5px;
-    padding: 10px;
   }
 }

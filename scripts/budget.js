@@ -160,12 +160,11 @@ function onIncomeEditBtnClick(e) {
   editIncomePriceInput.classList.add("edit-input-price");
   targetparagraph.appendChild(editIncomePriceInput);
 
-  let saveIncomeBtn = document.createElement("button");
-  saveIncomeBtn.innerHTML = '<i class="fas fa-save"></i>';
-  saveIncomeBtn.classList.add("save-btn");
-  targetparagraph.appendChild(saveIncomeBtn);
+  let editSaveBtn = document.getElementById(id);
+  editSaveBtn.classList.add("save-btn");
+  editSaveBtn.innerHTML = '<i class="fas fa-save"></i>';
 
-  saveIncomeBtn.onclick = (e) => {
+  editSaveBtn.onclick = (e) => {
     budget.editIncome(
       clickedIdIncome,
       editIncomeNameInput.value,
@@ -193,12 +192,11 @@ function onOutcomeEditBtnClick(e) {
   editOutcomePriceInput.value = outcomeToEdit.price;
   targetparagraph.appendChild(editOutcomePriceInput);
 
-  let saveOutcomeBtn = document.createElement("button");
-  saveOutcomeBtn.classList.add("save-btn");
-  saveOutcomeBtn.innerHTML = '<i class="fas fa-save"></i>';
-  targetparagraph.appendChild(saveOutcomeBtn);
+  let editSaveBtn = document.getElementById(id);
+  editSaveBtn.classList.add("save-btn");
+  editSaveBtn.innerHTML = '<i class="fas fa-save"></i>';
 
-  saveOutcomeBtn.onclick = (e) => {
+  editSaveBtn.onclick = (e) => {
     budget.editOutcome(
       clickedIdOutcome,
       editOutcomeNameInput.value,
@@ -314,17 +312,17 @@ function updateTotalSum() {
   if (totalIncomeSum == totalOutcomeSum) {
     return (
       (totalSumPara.innerText = "Bilans wynosi zero"),
-      totalSumPara.classList.add("blue-border")
+      totalSumPara.classList.add("blue-background")
     );
   } else if (totalIncomeSum > totalOutcomeSum) {
     return (
       (totalSumPara.innerText = `Możesz jeszcze wydać ${totalSum} złotych`),
-      totalSumPara.classList.add("green-border")
+      totalSumPara.classList.add("green-background")
     );
   }
   return (
     (totalSumPara.innerText = `Bilans jest ujemny. Jesteś na minusie ${absoluteValue} złotych`),
-    totalSumPara.classList.add("orange-border")
+    totalSumPara.classList.add("orange-background")
   );
 }
 
