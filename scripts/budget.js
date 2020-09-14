@@ -224,7 +224,6 @@ function updateIncomeList() {
   incomeArr.forEach((income) => {
     let incomeListItemContainer = document.createElement("div");
     incomeListItemContainer.classList.add("list-item-container");
-    incomeListItemContainer.classList.add("shadow");
     let incomesListContainer = document.querySelector("#incomesListContainer");
     incomesListContainer.appendChild(incomeListItemContainer);
 
@@ -264,7 +263,6 @@ function updateOutcomeList() {
   outcomeArr.forEach((outcome) => {
     let outcomeListItemContainer = document.createElement("div");
     outcomeListItemContainer.classList.add("list-item-container");
-    outcomeListItemContainer.classList.add("shadow");
     let outcomesListContainer = document.querySelector(
       "#outcomesListContainer"
     );
@@ -311,13 +309,23 @@ function updateTotalSum() {
   let totalIncomeSum = budget.getIncomesSum();
   let totalOutcomeSum = budget.getOutcomesSum();
   let totalSumPara = document.getElementById("totalSumPara");
+  let absoluteValue = Math.abs(totalSum);
 
   if (totalIncomeSum == totalOutcomeSum) {
-    return (totalSumPara.innerText = "Bilans wynosi zero");
+    return (
+      (totalSumPara.innerText = "Bilans wynosi zero"),
+      totalSumPara.classList.add("blue-border")
+    );
   } else if (totalIncomeSum > totalOutcomeSum) {
-    return (totalSumPara.innerText = `Możesz jeszcze wydać ${totalSum} złotych`);
+    return (
+      (totalSumPara.innerText = `Możesz jeszcze wydać ${totalSum} złotych`),
+      totalSumPara.classList.add("green-border")
+    );
   }
-  return (totalSumPara.innerText = `Bilans jest ujemny. Jesteś na minusie ${totalSum} złotych`);
+  return (
+    (totalSumPara.innerText = `Bilans jest ujemny. Jesteś na minusie ${absoluteValue} złotych`),
+    totalSumPara.classList.add("orange-border")
+  );
 }
 
 window.onload = () => {
