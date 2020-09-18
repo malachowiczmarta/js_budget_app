@@ -1,6 +1,15 @@
 class Budget {
-  incomesList = [];
-  outcomesList = [];
+  constructor() {
+    const savedState = localStorage.getItem("budgetState");
+    if (savedState) {
+      const state = JSON.parse(savedState);
+      this.incomesList = state.incomesList;
+      this.outcomesList = state.outcomesList;
+    } else {
+      this.incomesList = [];
+      this.outcomesList = [];
+    }
+  }
 
   getIncomes() {
     return this.incomesList;
@@ -49,6 +58,7 @@ class Budget {
     };
 
     this.incomesList.push(income);
+    this.setItemToLocalStorage();
   }
 
   addOutcome(newName, newPrice) {
@@ -59,6 +69,7 @@ class Budget {
     };
 
     this.outcomesList.push(outcome);
+    this.setItemToLocalStorage();
   }
 
   editIncome(id, newName, newPrice) {
@@ -67,18 +78,32 @@ class Budget {
 
   editOutcome(id, newName, newPrice) {
     this.outcomesList[id] = { id, name: newName, price: Number(newPrice) };
+    this.setItemToLocalStorage();
   }
 
   deleteIncome(id) {
     this.incomesList = this.incomesList.filter(function (income) {
       return income.id !== id;
     });
+
+    this.setItemToLocalStorage();
   }
 
   deleteOutcome(id) {
     this.outcomesList = this.outcomesList.filter(function (outcome) {
       return outcome.id !== id;
     });
+
+    this.setItemToLocalStorage();
+  }
+
+  setItemToLocalStorage() {
+    const state = JSON.stringify({
+      incomesList: this.incomesList,
+      outcomesList: this.outcomesList,
+    });
+
+    localStorage.setItem("budgetState", state);
   }
 }
 
