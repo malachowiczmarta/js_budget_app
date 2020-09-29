@@ -16,7 +16,7 @@ class Budget {
   }
 
   getIncome(id) {
-    const indexOfElement = this.incomesList.findIndex((x) => x.id == id);
+    const indexOfElement = this.incomesList.findIndex((elem) => elem.id == id);
     return this.incomesList[indexOfElement];
   }
 
@@ -25,7 +25,7 @@ class Budget {
   }
 
   getOutcome(id) {
-    const indexOfElement = this.outcomesList.findIndex((x) => x.id == id);
+    const indexOfElement = this.outcomesList.findIndex((elem) => elem.id == id);
     return this.outcomesList[indexOfElement];
   }
 
@@ -52,14 +52,15 @@ class Budget {
     return this.getIncomesSum() - this.getOutcomesSum();
   }
 
-  addIncome(newName, newPrice) {
+  addIncome(newName, newPrice, lastId) {
     const income = {
       name: newName,
       price: Number(newPrice),
-      id: this.incomesList.length,
+      id: lastId,
     };
 
     this.incomesList.push(income);
+
     this.setItemToLocalStorage();
   }
 
@@ -67,33 +68,33 @@ class Budget {
     const outcome = {
       name: newName,
       price: Number(newPrice),
-      id: this.outcomesList.length,
+      id: lastId,
     };
 
     this.outcomesList.push(outcome);
     this.setItemToLocalStorage();
   }
 
-  editIncome(id, newName, newPrice) {
+  editIncome(newName, newPrice, id) {
     const indexOfElementToEdit = this.incomesList.findIndex(
       (elem) => elem.id == id
     );
     this.incomesList[indexOfElementToEdit] = {
-      id,
       name: newName,
       price: Number(newPrice),
+      id,
     };
     this.setItemToLocalStorage();
   }
 
-  editOutcome(id, newName, newPrice) {
+  editOutcome(newName, newPrice, id) {
     const indexOfElementToEdit = this.outcomesList.findIndex(
       (elem) => elem.id == id
     );
     this.outcomesList[indexOfElementToEdit] = {
-      id,
       name: newName,
       price: Number(newPrice),
+      id,
     };
     this.setItemToLocalStorage();
   }
@@ -125,6 +126,7 @@ class Budget {
 }
 
 const budget = new Budget();
+let lastId = 0;
 
 function updateInterface() {
   updateIncomeList();
@@ -140,7 +142,9 @@ function onAddBtnIncomeClick() {
   let incomeName = document.getElementById("incomeName");
   let incomeSum = document.getElementById("incomeSum");
 
-  budget.addIncome(incomeName.value, incomeSum.value);
+  budget.addIncome(incomeName.value, incomeSum.value, lastId);
+
+  lastId++;
 
   console.log(budget);
   updateInterface();
@@ -150,7 +154,9 @@ function onAddBtnOutcomeClick() {
   let outcomeName = document.getElementById("outcomeName");
   let outcomeSum = document.getElementById("outcomeSum");
 
-  budget.addOutcome(outcomeName.value, outcomeSum.value);
+  budget.addOutcome(outcomeName.value, outcomeSum.value, lastId);
+
+  lastId++;
 
   console.log(budget);
   updateInterface();
@@ -186,6 +192,7 @@ function onIncomeEditBtnClick(e) {
   let splitedId = id.split("-");
 
   let clickedIdIncome = splitedId[1];
+  console.log(clickedIdIncome);
 
   let targetparagraph = document.getElementById(`income-${clickedIdIncome}`);
 
@@ -209,9 +216,9 @@ function onIncomeEditBtnClick(e) {
 
   editSaveBtn.onclick = (e) => {
     budget.editIncome(
-      clickedIdIncome,
       editIncomeNameInput.value,
-      editIncomePriceInput.value
+      editIncomePriceInput.value,
+      Number(clickedIdIncome)
     );
     updateInterface();
   };
@@ -241,9 +248,9 @@ function onOutcomeEditBtnClick(e) {
 
   editSaveBtn.onclick = (e) => {
     budget.editOutcome(
-      clickedIdOutcome,
       editOutcomeNameInput.value,
-      editOutcomePriceInput.value
+      editOutcomePriceInput.value,
+      Number(clickedIdOutcome)
     );
     updateInterface();
   };
@@ -353,20 +360,15 @@ function updateTotalSum() {
   let absoluteValue = Math.abs(totalSum);
 
   if (totalIncomeSum == totalOutcomeSum) {
-    return (
-      (totalSumPara.innerText = "Bilans wynosi zero"),
-      totalSumPara.classList.add("blue-background")
-    );
+    totalSumPara.innerText = "Bilans wynosi zero";
+    totalSumPara.style.backgroundColor = "#0d2137";
   } else if (totalIncomeSum > totalOutcomeSum) {
-    return (
-      (totalSumPara.innerText = `Możesz jeszcze wydać ${totalSum} złotych`),
-      totalSumPara.classList.add("green-background")
-    );
+    totalSumPara.innerText = `Możesz jeszcze wydać ${totalSum} złotych`;
+    totalSumPara.style.backgroundColor = "#238e23";
+  } else {
+    totalSumPara.innerText = `Bilans jest ujemny. Jesteś na minusie ${absoluteValue} złotych`;
+    totalSumPara.style.backgroundColor = "#f85b00";
   }
-  return (
-    (totalSumPara.innerText = `Bilans jest ujemny. Jesteś na minusie ${absoluteValue} złotych`),
-    totalSumPara.classList.add("orange-background")
-  );
 }
 
 window.onload = () => {
