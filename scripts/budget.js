@@ -16,7 +16,8 @@ class Budget {
   }
 
   getIncome(id) {
-    return this.incomesList[id];
+    const indexOfElement = this.incomesList.findIndex((x) => x.id == id);
+    return this.incomesList[indexOfElement];
   }
 
   getOutcomes() {
@@ -24,7 +25,8 @@ class Budget {
   }
 
   getOutcome(id) {
-    return this.outcomesList[id];
+    const indexOfElement = this.outcomesList.findIndex((x) => x.id == id);
+    return this.outcomesList[indexOfElement];
   }
 
   getIncomesSum() {
@@ -73,11 +75,26 @@ class Budget {
   }
 
   editIncome(id, newName, newPrice) {
-    this.incomesList[id] = { id, name: newName, price: Number(newPrice) };
+    const indexOfElementToEdit = this.incomesList.findIndex(
+      (elem) => elem.id == id
+    );
+    this.incomesList[indexOfElementToEdit] = {
+      id,
+      name: newName,
+      price: Number(newPrice),
+    };
+    this.setItemToLocalStorage();
   }
 
   editOutcome(id, newName, newPrice) {
-    this.outcomesList[id] = { id, name: newName, price: Number(newPrice) };
+    const indexOfElementToEdit = this.outcomesList.findIndex(
+      (elem) => elem.id == id
+    );
+    this.outcomesList[indexOfElementToEdit] = {
+      id,
+      name: newName,
+      price: Number(newPrice),
+    };
     this.setItemToLocalStorage();
   }
 
@@ -85,7 +102,7 @@ class Budget {
     this.incomesList = this.incomesList.filter(function (income) {
       return income.id !== id;
     });
-
+    console.log(this.incomesList);
     this.setItemToLocalStorage();
   }
 
@@ -143,6 +160,7 @@ function onAddBtnOutcomeClick() {
 
 function onIncomeRemoveBtnClick(e) {
   let id = e.target.id;
+  console.log(id);
   let splitedId = id.split("-");
   let clickedIdIncome = Number(splitedId[1]);
 
@@ -168,14 +186,14 @@ function onIncomeEditBtnClick(e) {
   let splitedId = id.split("-");
 
   let clickedIdIncome = splitedId[1];
-  console.log(clickedIdIncome);
 
   let targetparagraph = document.getElementById(`income-${clickedIdIncome}`);
 
   targetparagraph.innerText = "";
 
   const incomeToEdit = budget.getIncome(clickedIdIncome);
-
+  console.log(clickedIdIncome);
+  console.log(incomeToEdit);
   let editIncomeNameInput = document.createElement("input");
   editIncomeNameInput.value = incomeToEdit.name;
   editIncomeNameInput.classList.add("edit-input-name");
