@@ -1,23 +1,26 @@
+// zrobić tak żeby wszystko dodawało się do jednej tablicy ale dodać klucz type do objektów
+
 class Budget {
   constructor() {
     const savedState = localStorage.getItem("budgetState");
     if (savedState) {
       const state = JSON.parse(savedState);
-      this.incomesList = state.incomesList;
-      this.outcomesList = state.outcomesList;
+      this.itemsList = state.itemsList;
     } else {
-      this.incomesList = [];
-      this.outcomesList = [];
+      this.itemsList = [];
     }
   }
 
-  getIncomes() {
-    return this.incomesList;
+  getItemsList(type) {
+    const itemArr = this.itemsList.filter(function (item) {
+      return item.type == type;
+    });
+    return itemArr;
   }
 
-  getIncome(id) {
-    const indexOfElement = this.incomesList.findIndex((elem) => elem.id == id);
-    return this.incomesList[indexOfElement];
+  getItem(id) {
+    const indexOfElement = this.itemsList.findIndex((elem) => elem.id == id);
+    return this.itemsList[indexOfElement];
   }
 
   getOutcomes() {
@@ -30,7 +33,7 @@ class Budget {
   }
 
   getIncomesSum() {
-    const incomeSum = this.incomesList
+    const incomeSum = this.itemsList
       .map((income) => income.price)
       .reduce((sum, price) => {
         return sum + price;
@@ -40,7 +43,7 @@ class Budget {
   }
 
   getOutcomesSum() {
-    const outcomeSum = this.outcomesList
+    const outcomeSum = this.itemsList
       .map((outcome) => outcome.price)
       .reduce((sum, price) => {
         return sum + price;
@@ -52,55 +55,62 @@ class Budget {
     return this.getIncomesSum() - this.getOutcomesSum();
   }
 
-  addIncome(newName, newPrice, lastId) {
-    const income = {
+  addItem(newName, newPrice, lastId, type) {
+    const item = {
       name: newName,
       price: Number(newPrice),
       id: lastId,
+      type: type,
     };
 
-    this.incomesList.push(income);
+    console.log(item);
+
+    this.itemsList.push(item);
+
+    console.log(this.itemsList);
 
     this.setItemToLocalStorage();
   }
 
-  addOutcome(newName, newPrice) {
-    const outcome = {
-      name: newName,
-      price: Number(newPrice),
-      id: lastId,
-    };
+  // addOutcome(newName, newPrice, lastId) {
+  //   const outcome = {
+  //     name: newName,
+  //     price: Number(newPrice),
+  //     id: lastId,
+  //   };
 
-    this.outcomesList.push(outcome);
-    this.setItemToLocalStorage();
-  }
+  //   this.outcomesList.push(outcome);
+  //   this.setItemToLocalStorage();
+  // }
 
-  editIncome(newName, newPrice, id) {
-    const indexOfElementToEdit = this.incomesList.findIndex(
+  editIncome(newName, newPrice, id, type) {
+    const indexOfElementToEdit = this.itemsList.findIndex(
       (elem) => elem.id == id
     );
-    this.incomesList[indexOfElementToEdit] = {
+    this.itemsList[indexOfElementToEdit] = {
       name: newName,
       price: Number(newPrice),
       id,
+      type,
     };
     this.setItemToLocalStorage();
   }
 
-  editOutcome(newName, newPrice, id) {
-    const indexOfElementToEdit = this.outcomesList.findIndex(
+  editOutcome(newName, newPrice, id, type) {
+    const indexOfElementToEdit = this.itemsList.findIndex(
       (elem) => elem.id == id
     );
-    this.outcomesList[indexOfElementToEdit] = {
+    this.itemsList[indexOfElementToEdit] = {
       name: newName,
       price: Number(newPrice),
       id,
+      type,
     };
     this.setItemToLocalStorage();
   }
 
   deleteIncome(id) {
-    this.incomesList = this.incomesList.filter(function (income) {
+    this.itemsList = this.itemsList.filter(function (income) {
       return income.id !== id;
     });
     console.log(this.incomesList);
@@ -108,7 +118,7 @@ class Budget {
   }
 
   deleteOutcome(id) {
-    this.outcomesList = this.outcomesList.filter(function (outcome) {
+    this.itemsList = this.itemsList.filter(function (outcome) {
       return outcome.id !== id;
     });
 
@@ -116,12 +126,11 @@ class Budget {
   }
 
   setItemToLocalStorage() {
-    const state = JSON.stringify({
-      incomesList: this.incomesList,
-      outcomesList: this.outcomesList,
-    });
-
-    localStorage.setItem("budgetState", state);
+    // const state = JSON.stringify({
+    //   incomesList: this.incomesList,
+    //   outcomesList: this.outcomesList,
+    // });
+    // localStorage.setItem("budgetState", state);
   }
 }
 
@@ -138,29 +147,42 @@ function updateInterface() {
 
 // ADD ON CLICK##################################################################
 
-function onAddBtnIncomeClick() {
-  let incomeName = document.getElementById("incomeName");
-  let incomeSum = document.getElementById("incomeSum");
+function onAddBtnClick(elem) {
+  let name = "";
+  let sum = "";
+  if (elem.id == "buttonAddIncome") {
+    name = document.getElementById("incomeName");
+    sum = document.getElementById("incomeSum");
+  } else {
+    name = document.getElementById("outcomeName");
+    sum = document.getElementById("outcomeSum");
+  }
 
-  budget.addIncome(incomeName.value, incomeSum.value, lastId);
+  let type = name.name;
+
+  console.log(type);
+  console.log(name.value);
+  console.log(sum.value);
+  console.log(budget);
+
+  budget.addItem(name.value, sum.value, lastId, type);
 
   lastId++;
 
-  console.log(budget);
   updateInterface();
 }
 
-function onAddBtnOutcomeClick() {
-  let outcomeName = document.getElementById("outcomeName");
-  let outcomeSum = document.getElementById("outcomeSum");
+// function onAddBtnOutcomeClick() {
+//   let outcomeName = document.getElementById("outcomeName");
+//   let outcomeSum = document.getElementById("outcomeSum");
 
-  budget.addOutcome(outcomeName.value, outcomeSum.value, lastId);
+//   budget.addOutcome(outcomeName.value, outcomeSum.value, lastId);
 
-  lastId++;
+//   lastId++;
 
-  console.log(budget);
-  updateInterface();
-}
+//   console.log(budget);
+//   updateInterface();
+// }
 
 // DELETE ON CLICK #########################################################
 
@@ -198,7 +220,8 @@ function onIncomeEditBtnClick(e) {
 
   targetparagraph.innerText = "";
 
-  const incomeToEdit = budget.getIncome(clickedIdIncome);
+  const incomeToEdit = budget.getItem(clickedIdIncome);
+  const incomeToEditType = incomeToEdit.type;
   console.log(clickedIdIncome);
   console.log(incomeToEdit);
   let editIncomeNameInput = document.createElement("input");
@@ -218,7 +241,8 @@ function onIncomeEditBtnClick(e) {
     budget.editIncome(
       editIncomeNameInput.value,
       editIncomePriceInput.value,
-      Number(clickedIdIncome)
+      Number(clickedIdIncome),
+      incomeToEditType
     );
     updateInterface();
   };
@@ -231,7 +255,8 @@ function onOutcomeEditBtnClick(e) {
 
   let targetparagraph = document.getElementById(`outcome-${clickedIdOutcome}`);
   targetparagraph.innerText = "";
-  const outcomeToEdit = budget.getOutcome(clickedIdOutcome);
+  const outcomeToEdit = budget.getItem(clickedIdOutcome);
+  const outcomeToEditType = outcomeToEdit.type;
 
   let editOutcomeNameInput = document.createElement("input");
   editOutcomeNameInput.value = outcomeToEdit.name;
@@ -250,7 +275,8 @@ function onOutcomeEditBtnClick(e) {
     budget.editOutcome(
       editOutcomeNameInput.value,
       editOutcomePriceInput.value,
-      Number(clickedIdOutcome)
+      Number(clickedIdOutcome),
+      outcomeToEditType
     );
     updateInterface();
   };
@@ -266,8 +292,9 @@ function updateIncomeList() {
   incomeName.value = "";
   let incomeSum = document.getElementById("incomeSum");
   incomeSum.value = "";
+  let type = incomeName.name;
 
-  const incomeArr = budget.getIncomes();
+  const incomeArr = budget.getItemsList(type);
 
   incomeArr.forEach((income) => {
     let incomeListItemContainer = document.createElement("div");
@@ -305,8 +332,9 @@ function updateOutcomeList() {
   outcomeName.value = "";
   let outcomeSum = document.getElementById("outcomeSum");
   outcomeSum.value = "";
+  let type = outcomeName.name;
 
-  const outcomeArr = budget.getOutcomes();
+  const outcomeArr = budget.getItemsList(type);
 
   outcomeArr.forEach((outcome) => {
     let outcomeListItemContainer = document.createElement("div");

@@ -39,19 +39,21 @@
               <input
                 type="text"
                 id="incomeName"
+                name="income"
                 placeholder="Nazwa przychodu"
                 class="input-name"
               />
               <input
                 type="text"
                 id="incomeSum"
+                name="income"
                 placeholder="kwota"
                 class="input-sum"
               />
               <button
                 id="buttonAddIncome"
                 class="button-add"
-                onclick="onAddBtnIncomeClick()"
+                onclick="onAddBtnClick(this)"
               >
                 <i class="fas fa-plus"></i>
               </button>
@@ -75,19 +77,21 @@
               <input
                 type="text"
                 id="outcomeName"
+                name="outcome"
                 placeholder="Nazwa wydatku"
                 class="input-name"
               />
               <input
                 type="text"
                 id="outcomeSum"
+                name="outcome"
                 placeholder="kwota"
                 class="input-sum"
               />
               <button
                 id="buttonAddOutcome"
                 class="button-add"
-                onclick="onAddBtnOutcomeClick()"
+                onclick="onAddBtnClick(this)"
               >
                 <i class="fas fa-plus"></i>
               </button>
