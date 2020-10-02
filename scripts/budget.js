@@ -32,8 +32,8 @@ class Budget {
     return this.outcomesList[indexOfElement];
   }
 
-  getIncomesSum() {
-    const incomeSum = this.itemsList
+  getIncomesSum(type) {
+    const incomeSum = this.getItemsList(type)
       .map((income) => income.price)
       .reduce((sum, price) => {
         return sum + price;
@@ -42,8 +42,8 @@ class Budget {
     return incomeSum;
   }
 
-  getOutcomesSum() {
-    const outcomeSum = this.itemsList
+  getOutcomesSum(type) {
+    const outcomeSum = this.getItemsList(type)
       .map((outcome) => outcome.price)
       .reduce((sum, price) => {
         return sum + price;
@@ -52,7 +52,7 @@ class Budget {
     return outcomeSum;
   }
   getBalance() {
-    return this.getIncomesSum() - this.getOutcomesSum();
+    return this.getIncomesSum("income") - this.getOutcomesSum("outcome");
   }
 
   addItem(newName, newPrice, lastId, type) {
@@ -71,17 +71,6 @@ class Budget {
 
     this.setItemToLocalStorage();
   }
-
-  // addOutcome(newName, newPrice, lastId) {
-  //   const outcome = {
-  //     name: newName,
-  //     price: Number(newPrice),
-  //     id: lastId,
-  //   };
-
-  //   this.outcomesList.push(outcome);
-  //   this.setItemToLocalStorage();
-  // }
 
   editIncome(newName, newPrice, id, type) {
     const indexOfElementToEdit = this.itemsList.findIndex(
@@ -367,14 +356,16 @@ function updateOutcomeList() {
 }
 
 function updateIncomeSum() {
-  let totalIncomeSum = budget.getIncomesSum();
+  const type = "income";
+  let totalIncomeSum = budget.getIncomesSum(type);
   let totalIncomeSumSpan = document.getElementById("totalIncomeSumSpan");
   totalIncomeSumSpan.innerText = "";
   totalIncomeSumSpan.innerText = totalIncomeSum;
 }
 
 function updateOutcomeSum() {
-  let totalOutcomeSum = budget.getOutcomesSum();
+  const type = "outcome";
+  let totalOutcomeSum = budget.getOutcomesSum(type);
   let totalOutcomeSumSpan = document.getElementById("totalOutcomeSumSpan");
   totalOutcomeSumSpan.innerText = "";
   totalOutcomeSumSpan.innerText = totalOutcomeSum;
@@ -382,8 +373,8 @@ function updateOutcomeSum() {
 
 function updateTotalSum() {
   let totalSum = budget.getBalance();
-  let totalIncomeSum = budget.getIncomesSum();
-  let totalOutcomeSum = budget.getOutcomesSum();
+  let totalIncomeSum = budget.getIncomesSum("income");
+  let totalOutcomeSum = budget.getOutcomesSum("outcome");
   let totalSumPara = document.getElementById("totalSumPara");
   let absoluteValue = Math.abs(totalSum);
 
