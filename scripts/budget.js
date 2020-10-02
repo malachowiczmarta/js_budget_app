@@ -63,11 +63,7 @@ class Budget {
       type: type,
     };
 
-    console.log(item);
-
     this.itemsList.push(item);
-
-    console.log(this.itemsList);
 
     this.setItemToLocalStorage();
   }
@@ -98,19 +94,11 @@ class Budget {
     this.setItemToLocalStorage();
   }
 
-  deleteIncome(id) {
+  delete(id) {
     this.itemsList = this.itemsList.filter(function (income) {
       return income.id !== id;
     });
     console.log(this.incomesList);
-    this.setItemToLocalStorage();
-  }
-
-  deleteOutcome(id) {
-    this.itemsList = this.itemsList.filter(function (outcome) {
-      return outcome.id !== id;
-    });
-
     this.setItemToLocalStorage();
   }
 
@@ -132,6 +120,7 @@ function updateInterface() {
   updateIncomeSum();
   updateOutcomeSum();
   updateTotalSum();
+  console.log(budget);
 }
 
 // ADD ON CLICK##################################################################
@@ -149,11 +138,6 @@ function onAddBtnClick(elem) {
 
   let type = name.name;
 
-  console.log(type);
-  console.log(name.value);
-  console.log(sum.value);
-  console.log(budget);
-
   budget.addItem(name.value, sum.value, lastId, type);
 
   lastId++;
@@ -161,37 +145,15 @@ function onAddBtnClick(elem) {
   updateInterface();
 }
 
-// function onAddBtnOutcomeClick() {
-//   let outcomeName = document.getElementById("outcomeName");
-//   let outcomeSum = document.getElementById("outcomeSum");
-
-//   budget.addOutcome(outcomeName.value, outcomeSum.value, lastId);
-
-//   lastId++;
-
-//   console.log(budget);
-//   updateInterface();
-// }
-
 // DELETE ON CLICK #########################################################
 
-function onIncomeRemoveBtnClick(e) {
-  let id = e.target.id;
-  console.log(id);
+function onRemoveBtnClick(e) {
+  let id = e.id;
+
   let splitedId = id.split("-");
   let clickedIdIncome = Number(splitedId[1]);
 
-  budget.deleteIncome(clickedIdIncome);
-
-  updateInterface();
-}
-
-function onOutcomeRemoveBtnClick(e) {
-  let id = e.target.id;
-  let splitedId = id.split("-");
-  let clickedIdOutcome = Number(splitedId[1]);
-
-  budget.deleteOutcome(clickedIdOutcome);
+  budget.delete(clickedIdIncome);
 
   updateInterface();
 }
@@ -307,7 +269,7 @@ function updateIncomeList() {
     let deleteIncomeBtn = document.createElement("button");
     deleteIncomeBtn.id = `deleteBtn-${income.id}`;
     deleteIncomeBtn.classList.add("trash-btn");
-    deleteIncomeBtn.onclick = onIncomeRemoveBtnClick;
+    deleteIncomeBtn.setAttribute("onclick", "onRemoveBtnClick(this)");
     deleteIncomeBtn.innerHTML = '<i class="fas fa-trash-alt"></i>';
     incomeListItemContainer.appendChild(deleteIncomeBtn);
   });
@@ -349,7 +311,7 @@ function updateOutcomeList() {
     let deleteOutcomeBtn = document.createElement("button");
     deleteOutcomeBtn.id = `deleteBtn-${outcome.id}`;
     deleteOutcomeBtn.classList.add("trash-btn");
-    deleteOutcomeBtn.onclick = onOutcomeRemoveBtnClick;
+    deleteOutcomeBtn.setAttribute("onclick", "onRemoveBtnClick(this)");
     deleteOutcomeBtn.innerHTML = '<i class="fas fa-trash-alt"></i>';
     outcomeListItemContainer.appendChild(deleteOutcomeBtn);
   });
