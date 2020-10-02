@@ -81,19 +81,6 @@ class Budget {
     this.setItemToLocalStorage();
   }
 
-  // editOutcome(newName, newPrice, id, type) {
-  //   const indexOfElementToEdit = this.itemsList.findIndex(
-  //     (elem) => elem.id == id
-  //   );
-  //   this.itemsList[indexOfElementToEdit] = {
-  //     name: newName,
-  //     price: Number(newPrice),
-  //     id,
-  //     type,
-  //   };
-  //   this.setItemToLocalStorage();
-  // }
-
   delete(id) {
     this.itemsList = this.itemsList.filter(function (income) {
       return income.id !== id;
@@ -162,26 +149,28 @@ function onRemoveBtnClick(e) {
 
 function onEditBtnClick(e) {
   let id = e.id;
+
   let splitedId = id.split("-");
 
-  let clickedIdIncome = splitedId[1];
-  let type = splitedId[0];
-  console.log(type);
-  console.log(clickedIdIncome);
+  let clickedIdItem = splitedId[1];
+  let btnType = splitedId[0];
+  console.log(btnType);
+  console.log(clickedIdItem);
 
   let targetparagraph = "";
 
-  if ((type = "editBtnIncome")) {
-    targetparagraph = document.getElementById(`income-${clickedIdIncome}`);
-  } else {
-    targetparagraph = document.getElementById(`outcome-${clickedIdIncome}`);
+  if (btnType === "editBtnIncome") {
+    targetparagraph = document.getElementById(`income-${clickedIdItem}`);
+  } else if (btnType === "editBtnOutcome") {
+    targetparagraph = document.getElementById(`outcome-${clickedIdItem}`);
   }
-
+  console.log(targetparagraph);
   targetparagraph.innerText = "";
 
-  const itemToEdit = budget.getItem(clickedIdIncome);
+  const itemToEdit = budget.getItem(clickedIdItem);
+
   const itemToEditType = itemToEdit.type;
-  console.log(clickedIdIncome);
+  console.log(clickedIdItem);
   console.log(itemToEditType);
 
   // create editInput
@@ -189,10 +178,11 @@ function onEditBtnClick(e) {
   editNameInput.value = itemToEdit.name;
   editNameInput.classList.add("edit-input-name");
   targetparagraph.appendChild(editNameInput);
+  // edit input PRICE
   let editPriceInput = document.createElement("input");
-  editPriceInput.value = incomeToEdit.price;
+  editPriceInput.value = itemToEdit.price;
   editPriceInput.classList.add("edit-input-price");
-  targetparagraph.appendChild(editIncomePriceInput);
+  targetparagraph.appendChild(editPriceInput);
 
   // create save BTN sprawdz czy da sie kilka razy edytować ten sam
 
@@ -204,46 +194,12 @@ function onEditBtnClick(e) {
     budget.edit(
       editNameInput.value,
       editPriceInput.value,
-      Number(clickedIdIncome),
-      incomeToEditType
+      Number(clickedIdItem),
+      itemToEditType
     );
     updateInterface();
   };
 }
-
-// function onOutcomeEditBtnClick(e) {
-//   let id = e.target.id;
-//   let splitedId = id.split("-");
-//   let clickedIdOutcome = splitedId[1];
-
-//   let targetparagraph = document.getElementById(`outcome-${clickedIdOutcome}`);
-//   targetparagraph.innerText = "";
-//   const outcomeToEdit = budget.getItem(clickedIdOutcome);
-//   const outcomeToEditType = outcomeToEdit.type;
-
-//   let editOutcomeNameInput = document.createElement("input");
-//   editOutcomeNameInput.value = outcomeToEdit.name;
-//   editOutcomeNameInput.classList.add("edit-input-name");
-//   targetparagraph.appendChild(editOutcomeNameInput);
-//   let editOutcomePriceInput = document.createElement("input");
-//   editOutcomePriceInput.classList.add("edit-input-price");
-//   editOutcomePriceInput.value = outcomeToEdit.price;
-//   targetparagraph.appendChild(editOutcomePriceInput);
-
-//   let editSaveBtn = document.getElementById(id);
-//   editSaveBtn.classList.add("save-btn");
-//   editSaveBtn.innerHTML = '<i class="fas fa-save"></i>';
-
-//   editSaveBtn.onclick = (e) => {
-//     budget.editOutcome(
-//       editOutcomeNameInput.value,
-//       editOutcomePriceInput.value,
-//       Number(clickedIdOutcome),
-//       outcomeToEditType
-//     );
-//     updateInterface();
-//   };
-// }
 
 // UPDATE LIST FUNCTION ##########################################################################
 
