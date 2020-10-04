@@ -1,5 +1,3 @@
-// zrobić tak żeby wszystko dodawało się do jednej tablicy ale dodać klucz type do objektów
-
 class Budget {
   constructor() {
     const savedState = localStorage.getItem("budgetState");
@@ -23,36 +21,17 @@ class Budget {
     return this.itemsList[indexOfElement];
   }
 
-  getOutcomes() {
-    return this.outcomesList;
-  }
-
-  getOutcome(id) {
-    const indexOfElement = this.outcomesList.findIndex((elem) => elem.id == id);
-    return this.outcomesList[indexOfElement];
-  }
-
-  getIncomesSum(type) {
-    const incomeSum = this.getItemsList(type)
-      .map((income) => income.price)
+  getSum(type) {
+    const sum = this.getItemsList(type)
+      .map((item) => item.price)
       .reduce((sum, price) => {
         return sum + price;
       }, 0);
 
-    return incomeSum;
-  }
-
-  getOutcomesSum(type) {
-    const outcomeSum = this.getItemsList(type)
-      .map((outcome) => outcome.price)
-      .reduce((sum, price) => {
-        return sum + price;
-      }, 0);
-
-    return outcomeSum;
+    return sum;
   }
   getBalance() {
-    return this.getIncomesSum("income") - this.getOutcomesSum("outcome");
+    return this.getSum("income") - this.getSum("outcome");
   }
 
   addItem(newName, newPrice, lastId, type) {
@@ -85,16 +64,16 @@ class Budget {
     this.itemsList = this.itemsList.filter(function (income) {
       return income.id !== id;
     });
-    console.log(this.incomesList);
+
     this.setItemToLocalStorage();
   }
 
   setItemToLocalStorage() {
-    // const state = JSON.stringify({
-    //   incomesList: this.incomesList,
-    //   outcomesList: this.outcomesList,
-    // });
-    // localStorage.setItem("budgetState", state);
+    const state = JSON.stringify({
+      incomesList: this.incomesList,
+      outcomesList: this.outcomesList,
+    });
+    localStorage.setItem("budgetState", state);
   }
 }
 
@@ -107,10 +86,7 @@ function updateInterface() {
   updateIncomeSum();
   updateOutcomeSum();
   updateTotalSum();
-  console.log(budget);
 }
-
-// ADD ON CLICK##################################################################
 
 function onAddBtnClick(elem) {
   let name = "";
@@ -132,8 +108,6 @@ function onAddBtnClick(elem) {
   updateInterface();
 }
 
-// DELETE ON CLICK #########################################################
-
 function onRemoveBtnClick(e) {
   let id = e.id;
 
@@ -145,17 +119,11 @@ function onRemoveBtnClick(e) {
   updateInterface();
 }
 
-// EDIT CLICK ######################################################################
-
 function onEditBtnClick(e) {
   let id = e.id;
-
   let splitedId = id.split("-");
-
   let clickedIdItem = splitedId[1];
   let btnType = splitedId[0];
-  console.log(btnType);
-  console.log(clickedIdItem);
 
   let targetparagraph = "";
 
@@ -164,27 +132,21 @@ function onEditBtnClick(e) {
   } else if (btnType === "editBtnOutcome") {
     targetparagraph = document.getElementById(`outcome-${clickedIdItem}`);
   }
-  console.log(targetparagraph);
+
   targetparagraph.innerText = "";
 
   const itemToEdit = budget.getItem(clickedIdItem);
-
   const itemToEditType = itemToEdit.type;
-  console.log(clickedIdItem);
-  console.log(itemToEditType);
 
-  // create editInput
   let editNameInput = document.createElement("input");
   editNameInput.value = itemToEdit.name;
   editNameInput.classList.add("edit-input-name");
   targetparagraph.appendChild(editNameInput);
-  // edit input PRICE
+
   let editPriceInput = document.createElement("input");
   editPriceInput.value = itemToEdit.price;
   editPriceInput.classList.add("edit-input-price");
   targetparagraph.appendChild(editPriceInput);
-
-  // create save BTN sprawdz czy da sie kilka razy edytować ten sam
 
   let editSaveBtn = document.getElementById(id);
   editSaveBtn.classList.add("save-btn");
@@ -200,8 +162,6 @@ function onEditBtnClick(e) {
     updateInterface();
   };
 }
-
-// UPDATE LIST FUNCTION ##########################################################################
 
 function updateIncomeList() {
   let incomesListContainer = document.querySelector("#incomesListContainer");
@@ -287,24 +247,22 @@ function updateOutcomeList() {
 
 function updateIncomeSum() {
   const type = "income";
-  let totalIncomeSum = budget.getIncomesSum(type);
+  let totalIncomeSum = budget.getSum(type);
   let totalIncomeSumSpan = document.getElementById("totalIncomeSumSpan");
-  totalIncomeSumSpan.innerText = "";
   totalIncomeSumSpan.innerText = totalIncomeSum;
 }
 
 function updateOutcomeSum() {
   const type = "outcome";
-  let totalOutcomeSum = budget.getOutcomesSum(type);
+  let totalOutcomeSum = budget.getSum(type);
   let totalOutcomeSumSpan = document.getElementById("totalOutcomeSumSpan");
-  totalOutcomeSumSpan.innerText = "";
   totalOutcomeSumSpan.innerText = totalOutcomeSum;
 }
 
 function updateTotalSum() {
   let totalSum = budget.getBalance();
-  let totalIncomeSum = budget.getIncomesSum("income");
-  let totalOutcomeSum = budget.getOutcomesSum("outcome");
+  let totalIncomeSum = budget.getSum("income");
+  let totalOutcomeSum = budget.getSum("outcome");
   let totalSumPara = document.getElementById("totalSumPara");
   let absoluteValue = Math.abs(totalSum);
 
