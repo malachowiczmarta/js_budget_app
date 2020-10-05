@@ -70,8 +70,7 @@ class Budget {
 
   setItemToLocalStorage() {
     const state = JSON.stringify({
-      incomesList: this.incomesList,
-      outcomesList: this.outcomesList,
+      itemsList: this.itemsList,
     });
     localStorage.setItem("budgetState", state);
   }
