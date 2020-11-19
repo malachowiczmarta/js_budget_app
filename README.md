@@ -13,10 +13,10 @@ Here is a working demo : https://malachowiczmarta.github.io/js_budget_app/
 
 ## Screenshots
 
-![Budget app screenshot](./jsbudgetapp.png)
+![Budget app screenshot](./jsbudgetapp.PNG)
 
 ## Technologies
 
 - Javascript
 - HTML5
-- CSS
+- CSS3
